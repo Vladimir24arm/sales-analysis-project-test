@@ -125,7 +125,7 @@ test = df[df['group_name'] == 'Test']['price']
 # Расчет T-теста
 ```python 
 t_stat, p_value = stats.ttest_ind(control, test, equal_var=False)
-```
+ 
 ```python
 print(f"Средний чек (без подарка): {control.mean():.2f} руб.")
 print(f"Средний чек (с подарком): {test.mean():.2f} руб.")
