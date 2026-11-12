@@ -117,7 +117,7 @@ from scipy import stats
 df = pd.read_csv(r"C:\Users\volod\OneDrive\Рабочий стол\ab_test_data.csv" )
 ```
 <img width="1295" height="455" alt="2026-11-12_19-25-30" src="https://github.com/user-attachments/assets/af264e6a-fd55-4344-9f8f-ff3155d9b6d1" />
-```python
+
 control = df[df['group_name'] == 'Control']['price']
 test = df[df['group_name'] == 'Test']['price']
 ```
