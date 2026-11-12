@@ -122,13 +122,12 @@ control = df[df['group_name'] == 'Control']['price']
 test = df[df['group_name'] == 'Test']['price']
 ```
 # Расчет T-теста
-```python
 t_stat, p_value = stats.ttest_ind(control, test, equal_var=False)
 
 print(f"Средний чек (без подарка): {control.mean():.2f} руб.")
 print(f"Средний чек (с подарком): {test.mean():.2f} руб.")
 print(f"P-value: {p_value:.4f}")
-```
+
 <img width="1486" height="528" alt="2026-11-12_19-27-38" src="https://github.com/user-attachments/assets/c60f9a01-4b02-4ecb-8bfc-17a832e4f551" />
 
 **Результат:** P-value = **0.159942**, что больше 0.05. Разница в среднем чеке статистически незначима.
