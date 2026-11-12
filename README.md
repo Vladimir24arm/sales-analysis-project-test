@@ -31,8 +31,7 @@ from orderss
 group by manager
 order by total_revenue desc;
 ```
-<img width="1120" height="602" alt="2026-11-12_19-29-19" src="https://github.com/user-attachments/assets/c85610de-2bcc-4cd8-a450-ad0dfd934b57" />
-
+<img width="1008" height="600" alt="2026-11-12_19-48-21" src="https://github.com/user-attachments/assets/ffba9e8c-b2b4-43eb-94eb-984d11655d12" />
 
 
 **Результат:** Лазарева Кира принесла 52 млн руб., Медведева Злата - 28 млн. Остальные менеджеры принесли менее 10 млн.
