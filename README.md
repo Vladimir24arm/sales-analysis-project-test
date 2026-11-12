@@ -115,12 +115,14 @@ from scipy import stats
 
 # Загрузка данных
 df = pd.read_csv(r"C:\Users\volod\OneDrive\Рабочий стол\ab_test_data.csv" )
+```
 <img width="1295" height="455" alt="2026-11-12_19-25-30" src="https://github.com/user-attachments/assets/af264e6a-fd55-4344-9f8f-ff3155d9b6d1" />
-
+```python
 control = df[df['group_name'] == 'Control']['price']
 test = df[df['group_name'] == 'Test']['price']
-
+```
 # Расчет T-теста
+```python
 t_stat, p_value = stats.ttest_ind(control, test, equal_var=False)
 
 print(f"Средний чек (без подарка): {control.mean():.2f} руб.")
