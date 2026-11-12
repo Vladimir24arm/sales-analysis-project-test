@@ -102,7 +102,8 @@ from orderss
 group by sales_channel
 order by total_spent desc;
 ```
-<img width="1501" height="653" alt="2026-11-12_19-23-48" src="https://github.com/user-attachments/assets/a44bee4d-5390-46d0-977e-0dd9955340e0" />
+![Название_картинки](<img width="1501" height="653" alt="2026-11-12_19-23-48" src="https://github.com/user-attachments/assets/a44bee4d-5390-46d0-977e-0dd9955340e0" />
+)
 
 **Результат:** Лидер - ВК (37.59% выручки), далее Инстаграм (15.50%) и Телеграм (13.17%).
 **Вывод для бизнеса:** Перераспределить рекламный бюджет в пользу ВК и Инстаграмма, так как они дают наибольший возврат. Так же либо пересмотреть ведение менее прибыльных каналов, либо отказаться от них. 
@@ -117,7 +118,9 @@ from scipy import stats
 ```python
 df = pd.read_csv(r"C:\Users\volod\OneDrive\Рабочий стол\ab_test_data.csv" )
 ```
-<img width="1295" height="455" alt="2026-11-12_19-25-30" src="https://github.com/user-attachments/assets/af264e6a-fd55-4344-9f8f-ff3155d9b6d1" />
+![Название_картинки](<img width="1295" height="455" alt="2026-11-12_19-25-30" src="https://github.com/user-attachments/assets/af264e6a-fd55-4344-9f8f-ff3155d9b6d1" />)
+
+  
 ```python 
 control = df[df['group_name'] == 'Control']['price']
 test = df[df['group_name'] == 'Test']['price']
@@ -138,6 +141,6 @@ print(f"P-value: {p_value:.4f}")
 
 ##Визуализация (Power BI)
 Для наглядности все ключевые метрики собраны в единый интерактивный дашборд.
+![Название_картинки](<img width="1920" height="1014" alt="2026-11-12_18-19-05" src="https://github.com/user-attachments/assets/0ab1de85-d64a-40ad-bd2b-1906867098d6" />)
 
-<img width="1920" height="1014" alt="2026-11-12_18-19-05" src="https://github.com/user-attachments/assets/0ab1de85-d64a-40ad-bd2b-1906867098d6" />
 
