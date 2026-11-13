@@ -186,6 +186,7 @@ print(f"P-value: {p_value:.4f}")
  
 ## Визуализация (Power BI)
 Для наглядности все ключевые метрики собраны в единый интерактивный дашборд.
-<img width="1920" height="1014" alt="2026-11-12_18-19-05" src="https://github.com/user-attachments/assets/0ab1de85-d64a-40ad-bd2b-1906867098d6" />
+ <img width="1920" height="1091" alt="2026-11-13_23-06-58" src="https://github.com/user-attachments/assets/5353c576-a1a5-47e8-b36d-741b26840894" />
+
 
 
