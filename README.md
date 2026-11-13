@@ -92,7 +92,7 @@ order by
     to_date(cohort_month, 'MM-YYYY') asc, 
     to_date(order_month, 'MM-YYYY') asc;
 ```
-<img width="1134" height="944" alt="2026-11-13_21-33-19" src="https://github.com/user-attachments/assets/7c0795ca-ccd3-4261-a779-e514e23168cd" />
+<img width="1068" height="931" alt="2026-11-13_23-31-00" src="https://github.com/user-attachments/assets/15d55d34-1988-4567-8cee-e74596315af2" />
 <img width="419" height="950" alt="2026-11-13_21-34-12" src="https://github.com/user-attachments/assets/77d885c3-5cce-43ee-a642-5f9689b71007" />
 <img width="411" height="953" alt="2026-11-13_21-34-48" src="https://github.com/user-attachments/assets/020b68ad-7e05-4b71-8999-dd43820ad5d2" />
 
