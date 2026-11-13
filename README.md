@@ -162,7 +162,7 @@ import pandas as pd
 df = pd.read_csv(r"C:\Users\volod\OneDrive\Рабочий стол\ab-test.csv")
 df.head()
 ```
-<img width="1295" height="455" alt="2026-11-12_19-25-30" src="https://github.com/user-attachments/assets/af264e6a-fd55-4344-9f8f-ff3155d9b6d1" />
+<img width="1055" height="461" alt="2026-11-13_22-49-05" src="https://github.com/user-attachments/assets/5b54fd09-3aeb-4115-9bf3-f8984d0ba70e" />
 
   
 ```python 
