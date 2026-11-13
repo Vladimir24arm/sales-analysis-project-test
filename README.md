@@ -11,13 +11,15 @@
 **Бизнес-задача:** Понять географию продаж и выявить города-лидеры по количеству заказов.
 
 ```sql
-select city, count(*) as cnt 
+select  city, count(*) as cnt 
 from orderss
+where price != '0'
 group by city
 order by cnt desc
 limit 10;
 ```
-<img width="1501" height="664" alt="2026-11-12_19-19-14" src="https://github.com/user-attachments/assets/a3886b8c-ced7-4d00-8b94-7e9a3a02d258" />
+<img width="632" height="685" alt="2026-11-13_18-34-41" src="https://github.com/user-attachments/assets/8be947b1-4d39-4598-a32d-789621572386" />
+
 
 
 **Результат:** Лидеры по количеству заказов - Владивосток (219), Самара (217), Тюмень (217), Нижний Новгород (216) и Оренбург (215).
