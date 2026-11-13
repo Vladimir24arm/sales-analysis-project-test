@@ -99,11 +99,13 @@ select sales_channel,  count(*) as cnt,
 round(sum(regexp_replace(price, '[^0-9]', '', 'g')::numeric) * 100.0 / 
      (select sum(regexp_replace(price, '[^0-9]', '', 'g')::numeric) FROM orderss), 2) as percent,
 sum(regexp_replace(price, '[^0-9]', '', 'g')::numeric) as total_spent
-from orderss 
+from orderss
+where price != '0'
 group by sales_channel
 order by total_spent desc;
 ```
-<img width="1501" height="653" alt="2026-11-12_19-23-48" src="https://github.com/user-attachments/assets/a44bee4d-5390-46d0-977e-0dd9955340e0" />
+<img width="1117" height="674" alt="2026-11-13_20-44-52" src="https://github.com/user-attachments/assets/fc0acd23-a3f1-4ddf-9f77-7ec7f6b742d3" />
+
 
 
 **Результат:** Лидер - ВК (37.59% выручки), далее Инстаграм (15.50%) и Телеграм (13.17%).
