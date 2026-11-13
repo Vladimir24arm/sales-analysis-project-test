@@ -70,27 +70,61 @@ order by percent desc;
 **Вывод для бизнеса:** Бизнес может ввести бесплатную доставку как маркетинговый ход, не рискуя уйти в убыток.
 
 ## Задача 5: Когортный анализ клиентов (LTV и удержание)
-**Бизнес-задача:** Понять, кто приносит больше денег - новые клиенты или постоянные.
+**Бизнес-задача:** Понять, какое количество новых клиентов возвращается в последующих месяцах после первой покупки в течение года.
 ```sql
-with a as(select client_fio, count(*) as order_count, sum(regexp_replace(price, '[^0-9]', '', 'g')::numeric) as total_spent
+select sales_channel,  count(*) as cnt, 
+round(sum(regexp_replace(price, '[^0-9]', '', 'g')::numeric) * 100.0 / 
+     (select sum(regexp_replace(price, '[^0-9]', '', 'g')::numeric) FROM orderss), 2) as percent,
+sum(regexp_replace(price, '[^0-9]', '', 'g')::numeric) as total_spent
 from orderss
-group by client_fio)
-select case when order_count  = 1 then 'Купили 1 раз(новые)'
-            when order_count between 2 and 3 then 'Купили 2-3 раза'
-			else 'Купили 4+ раз(постоянные)'
-			    end as client_category,  round(
-        count(*) * 100.0 / (select count(distinct client_fio) from orderss), 
-        2) as client_percent,				
-count(*) as client_cnt, sum(total_spent) as total_sum,
-round((sum(total_spent)/count(*)),2) as avg_check
-from a
-group by client_category
-order by avg_check asc;
-```
-<img width="1498" height="638" alt="2026-11-12_19-22-51" src="https://github.com/user-attachments/assets/aabdfdeb-ba8b-41d8-888e-b808ec500204" />
+where price != '0'
+group by sales_channel
+order by total_spent desc;
 
-**Результат:** Постоянные клиенты (5.66% от базы) принесли 9.5 млн руб. Их средний чек - 36 817 руб., что в 2 раза выше, чем у новых (17 936 руб.).
-**Вывод для бизнеса:** Внедрить программу лояльности и скидки на второй заказ, чтобы удерживать новых клиентов. Это принесет больше прибыли, чем привлечение новых, так как новых клиентов больше половины - 54,58%.
+with a as ( select client_fio,
+                   to_char(to_date(order_date, 'DD.MM.YYYY'), 'MM-YYYY') as order_month,
+                   min(to_char(to_date(order_date, 'DD.MM.YYYY'), 'MM-YYYY')) 
+                   over (partition by client_fio) AS cohort_month
+from orderss
+    where price != '0')
+select cohort_month AS "Когорта",
+       order_month AS "Месяц покупки",
+       count(distinct client_fio) as "Клиенты"
+from a
+group by cohort_month, order_month
+order by
+    to_date(cohort_month, 'MM-YYYY') asc, 
+    to_date(order_month, 'MM-YYYY') asc;
+```
+<img width="1134" height="944" alt="2026-11-13_21-33-19" src="https://github.com/user-attachments/assets/7c0795ca-ccd3-4261-a779-e514e23168cd" />
+<img width="419" height="950" alt="2026-11-13_21-34-12" src="https://github.com/user-attachments/assets/77d885c3-5cce-43ee-a642-5f9689b71007" />
+<img width="411" height="953" alt="2026-11-13_21-34-48" src="https://github.com/user-attachments/assets/020b68ad-7e05-4b71-8999-dd43820ad5d2" />
+```sql
+WITH cohorts AS (SELECT client_fio, MIN(TO_CHAR(TO_DATE(order_date, 'DD.MM.YYYY'), 'YYYY-MM')) 
+OVER (PARTITION BY client_fio) AS cohort_month, TO_CHAR(TO_DATE(order_date, 'DD.MM.YYYY'), 'YYYY-MM') AS order_month
+FROM orderss
+WHERE price != '0'),
+cohort_sizes AS (SELECT cohort_month,
+    COUNT(DISTINCT client_fio) AS total_clients
+    FROM cohorts
+    GROUP BY cohort_month),
+    returned_clients AS (SELECT cohort_month,
+                         COUNT(DISTINCT client_fio) AS returned_clients
+    FROM cohorts
+    WHERE order_month != cohort_month  
+    GROUP BY cohort_month)
+SELECT cs.cohort_month AS "Когорта",
+       cs.total_clients AS "Всего клиентов",
+       COALESCE(rc.returned_clients, 0) AS "Вернулось",
+       ROUND(COALESCE(rc.returned_clients, 0) * 100.0 / cs.total_clients, 2) AS "Процент удержания (%)"
+FROM cohort_sizes cs
+LEFT JOIN returned_clients rc ON cs.cohort_month = rc.cohort_month
+order by cs.cohort_month;
+```
+<img width="1328" height="955" alt="2026-11-13_21-42-12" src="https://github.com/user-attachments/assets/b2f23c2f-efd4-42bd-af71-e8bc7c5193f7" />
+
+**Результат:** Проанализировал удержание клиентов по когортам. Из 576 клиентовб пришедших в январе, вернулось в течение года 47 (8,16%). Из 343, пришедших в феврале, вернулось 37 (10.79%). В марте из 193 вернулось 35 (18.13%). Для каждом месяце пришедший клиент считается уникальным(первым) и в списке  новых клиентов, пришедших за следующий месяц текущего года не входят клиенты из предыдущего месяца.
+**Вывод для бизнеса:** Самый большой процент возврата клиентов - 15,07% (из тех, что впервые пришли за покупкой в апреле (272), вернулось повторно 41. Для того, чтобы понимать, являются ли такие проценты нормой (средний процент возврата 9,75% без учета октября, тк данные ограничиваются этим месяцем), необходимо понимать внутренние цели и планы компании по возврату(удержанию) клиентов. Рекомендую сравнить эти цифры с планами бизнеса. Если уровень удержания выше, стоит пересмотреть программу лояльности и рассылки для стимулирования повторных продаж. 
 
 ## Задача 6: Анализ маркетинговых каналов
 **Бизнес-задача:** Понять, откуда приходят самые прибыльные клиенты.
