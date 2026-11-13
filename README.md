@@ -77,15 +77,6 @@ order by percent desc;
 ## Задача 5: Когортный анализ клиентов (LTV и удержание)
 **Бизнес-задача:** Понять, какое количество новых клиентов возвращается в последующих месяцах после первой покупки в течение года.
 ```sql
-select sales_channel,  count(*) as cnt, 
-round(sum(regexp_replace(price, '[^0-9]', '', 'g')::numeric) * 100.0 / 
-     (select sum(regexp_replace(price, '[^0-9]', '', 'g')::numeric) FROM orderss), 2) as percent,
-sum(regexp_replace(price, '[^0-9]', '', 'g')::numeric) as total_spent
-from orderss
-where price != '0'
-group by sales_channel
-order by total_spent desc;
-
 with a as ( select client_fio,
                    to_char(to_date(order_date, 'DD.MM.YYYY'), 'MM-YYYY') as order_month,
                    min(to_char(to_date(order_date, 'DD.MM.YYYY'), 'MM-YYYY')) 
