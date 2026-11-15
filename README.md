@@ -78,19 +78,19 @@ order by percent desc;
 **Бизнес-задача:** Понять, какое количество новых клиентов возвращается в последующих месяцах после первой покупки в течение года.
 ```sql
 with a as ( select client_fio,
-                   to_char(to_date(order_date, 'DD.MM.YYYY'), 'MM-YYYY') as order_month,
-                   min(to_char(to_date(order_date, 'DD.MM.YYYY'), 'MM-YYYY')) 
-                   over (partition by client_fio) AS cohort_month
+                   date_trunc('month', to_date(order_date, 'DD.MM.YYYY')) as order_month,
+                   min(date_trunc('month', to_date(order_date, 'DD.MM.YYYY'))) 
+                   over (partition by client_fio) as cohort_month
 from orderss
     where price != '0')
-select cohort_month AS "Когорта",
-       order_month AS "Месяц покупки",
+select 
+ to_char(cohort_month, 'YYYY-MM') as "Когорта",
+    to_char(order_month, 'YYYY-MM') as "Месяц покупки",
        count(distinct client_fio) as "Клиенты"
 from a
 group by cohort_month, order_month
-order by
-    to_date(cohort_month, 'MM-YYYY') asc, 
-    to_date(order_month, 'MM-YYYY') asc;
+order by cohort_month asc, 
+   order_month asc;
 ```
 <img width="1068" height="931" alt="2026-11-13_23-31-00" src="https://github.com/user-attachments/assets/15d55d34-1988-4567-8cee-e74596315af2" />
 <img width="419" height="950" alt="2026-11-13_21-34-12" src="https://github.com/user-attachments/assets/77d885c3-5cce-43ee-a642-5f9689b71007" />
