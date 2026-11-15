@@ -92,9 +92,18 @@ group by cohort_month, order_month
 order by cohort_month asc, 
    order_month asc;
 ```
-<img width="1068" height="931" alt="2026-11-13_23-31-00" src="https://github.com/user-attachments/assets/15d55d34-1988-4567-8cee-e74596315af2" />
-<img width="419" height="950" alt="2026-11-13_21-34-12" src="https://github.com/user-attachments/assets/77d885c3-5cce-43ee-a642-5f9689b71007" />
-<img width="411" height="953" alt="2026-11-13_21-34-48" src="https://github.com/user-attachments/assets/020b68ad-7e05-4b71-8999-dd43820ad5d2" />
+<img width="1047" height="952" alt="2026-11-15_20-24-32" src="https://github.com/user-attachments/assets/faadf28b-daa0-426e-8724-43ff99e0bd8f" />
+<img width="426" height="955" alt="2026-11-15_20-24-59" src="https://github.com/user-attachments/assets/5e369e39-10c3-473f-a93d-470bad7d6f1c" />
+<img width="413" height="952" alt="2026-11-15_20-25-18" src="https://github.com/user-attachments/assets/cd200000-b986-4ec8-bb34-4221a14e1786" />
+
+
+ 
+
+
+
+
+
+
 
 ```sql
 WITH cohorts AS (SELECT client_fio, MIN(TO_CHAR(TO_DATE(order_date, 'DD.MM.YYYY'), 'YYYY-MM')) 
